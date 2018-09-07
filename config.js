@@ -1,3 +1,5 @@
+var fileConfig = require('config');
+
 var config = {
   basePath: '/bws/api',
   disableLogs: false,
@@ -37,34 +39,29 @@ var config = {
       url: 'http://localhost:3380',
     },
   },
-  // TODO Make these configurable outside source control
   blockchainExplorerOpts: {
     btc: {
       livenet: {
-        provider: 'insight',
-        // url: 'https://insight.bitpay.com:443',
-        url: 'https://btc.blockdozer.com/insight-api'
+        provider: fileConfig.get('explorer.btc.livenet.provider'),
+        url: fileConfig.get('explorer.btc.livenet.url')
       },
       testnet: {
-        provider: 'insight',
-        // url: 'https://test-insight.bitpay.com:443',
-        url: 'https://btc.blockdozer.com/insight-api'
+        provider: fileConfig.get('explorer.btc.testnet.provider'),
+        url: fileConfig.get('explorer.btc.testnet.url')
         // Multiple servers (in priority order)
         // url: ['http://a.b.c', 'https://test-insight.bitpay.com:443'],
       },
     },
     bch: {
       livenet: {
-        provider: 'insight',
-        // url: 'https://bch-insight.bitpay.com:443',
-        url: 'https://blockdozer.com/insight-api',
-        addressFormat: 'cashaddr',  // copay, cashaddr, or legacy
+        provider: fileConfig.get('explorer.bch.livenet.url'),
+        url: fileConfig.get('explorer.bch.livenet.url'),
+        addressFormat: fileConfig.get('explorer.btc.testnet.addressFormat'),  // copay, cashaddr, or legacy
       },
       testnet: {
-        provider: 'insight',
-        // url: 'https://test-bch-insight.bitpay.com:443',
-        url: 'http://localhost:3001',
-        addressFormat: 'cashaddr',  // copay, cashaddr, or legacy
+        provider: fileConfig.get('explorer.bch.testnet.provider'),
+        url: fileConfig.get('explorer.bch.testnet.url'),
+        addressFormat: fileConfig.get('explorer.bch.testnet.addressFormat'),  // copay, cashaddr, or legacy
       },
 
     },

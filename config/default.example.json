@@ -1,0 +1,26 @@
+{
+    "explorer": {
+        "btc": {
+            "livenet": {
+                "provider": "insight",
+                "url": "https://btc.blockdozer.com/insight-api"
+            },
+            "testnet": {
+                "provider": "insight",
+                "url": "https://btc.blockdozer.com/insight-api"
+            }
+        },
+        "bch": {
+            "livenet": {
+                "provider": "insight",
+                "url": "https://blockdozer.com/insight-api",
+                "addressFormat": "cashaddr"
+            },
+            "testnet": {
+                "provider": "insight",
+                "url": "https://tbch.blockdozer.com/insight-api",
+                "addressFormat": "cashaddr"
+            }
+        }
+    }
+}
