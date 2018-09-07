@@ -34,3 +34,6 @@ db/*
 multilevel/db/*
 
 .idea
+
+# Configuration file
+config/default.json
