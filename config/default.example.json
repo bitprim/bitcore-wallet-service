@@ -21,6 +21,7 @@
                 "url": "https://tbch.blockdozer.com/insight-api",
                 "addressFormat": "cashaddr"
             }
-        }
+        },
+        "webSocketsUrl" : "ws://blockdozer.com/ws"
     }
 }
