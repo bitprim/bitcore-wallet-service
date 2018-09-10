@@ -27,7 +27,7 @@ var config = {
   lockOpts: {
     //  To use locker-server, uncomment this:
     lockerServer: {
-      host: 'localhost',
+      host: 'mongodb',
       port: 3231,
     },
   },
@@ -41,11 +41,11 @@ var config = {
     btc: {
       livenet: {
         provider: 'insight',
-        url: 'https://insight.bitpay.com:443',
+        url: 'https://btc.blockdozer.com:443',
       },
       testnet: {
         provider: 'insight',
-        url: 'https://test-insight.bitpay.com:443',
+        url: 'https://tbtc.blockdozer.com:443',
         // Multiple servers (in priority order)
         // url: ['http://a.b.c', 'https://test-insight.bitpay.com:443'],
       },
@@ -54,12 +54,12 @@ var config = {
       livenet: {
         provider: 'insight',
         //url: 'https://cashexplorer.bitcoin.com',
-        url: 'https://bch-insight.bitpay.com:443',
+        url: 'https://blockdozer.com:443',
         addressFormat: 'cashaddr',  // copay, cashaddr, or legacy
       },
       testnet: {
         provider: 'insight',
-        url: 'https://test-bch-insight.bitpay.com:443',
+        url: 'https://tbch.blockdozer.com:443',
         addressFormat: 'cashaddr',  // copay, cashaddr, or legacy
       },
 
