@@ -27,7 +27,7 @@ var config = {
   lockOpts: {
     //  To use locker-server, uncomment this:
     lockerServer: {
-      host: 'mongodb',
+      host: 'localhost',
       port: 3231,
     },
   },
