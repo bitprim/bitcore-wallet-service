@@ -3,25 +3,25 @@
         "btc": {
             "livenet": {
                 "provider": "insight",
-                "url": "https://btc.blockdozer.com/insight-api",
+                "url": "https://btc.blockdozer.com/api",
                 "webSocketsUrl" : "wss://btc.blockdozer.com/wss"
             },
             "testnet": {
                 "provider": "insight",
-                "url": "https://tbtc.blockdozer.com/insight-api",
+                "url": "https://tbtc.blockdozer.com/api",
                 "webSocketsUrl" : "wss://tbtc.blockdozer.com/wss"
             }
         },
         "bch": {
             "livenet": {
                 "provider": "insight",
-                "url": "https://blockdozer.com/insight-api",
+                "url": "https://blockdozer.com/api",
                 "addressFormat": "cashaddr",
                 "webSocketsUrl" : "wss://blockdozer.com/wss"
             },
             "testnet": {
                 "provider": "insight",
-                "url": "https://tbch.blockdozer.com/insight-api",
+                "url": "https://tbch.blockdozer.com/api",
                 "addressFormat": "cashaddr",
                 "webSocketsUrl" : "wss://tbch.blockdozer.com/wss"
             }
