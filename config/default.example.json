@@ -25,7 +25,7 @@
                 "addressFormat": "cashaddr",
                 "webSocketsUrl" : "wss://tbch.blockdozer.com/wss"
             }
-        },
-        "mongodbUrl" : "mongodb://mongoddb:27017/bws"
-    }
+        }
+     },
+    "mongodbUrl" : "mongodb://mongoddb:27017/bws"
 }
