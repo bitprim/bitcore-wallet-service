@@ -27,5 +27,5 @@
             }
         }
      },
-    "mongodbUrl" : "mongodb://mongoddb:27017/bws"
+    "mongodbUrl" : "mongodb://mongodb:27017/bws"
 }
