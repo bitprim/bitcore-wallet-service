@@ -58,7 +58,7 @@ var config = {
       livenet: {
         provider: fileConfig.get('explorer.bch.livenet.provider'),
         url: fileConfig.get('explorer.bch.livenet.url'),
-        addressFormat: fileConfig.get('explorer.bch.testnet.addressFormat'),  // copay, cashaddr, or legacy
+        addressFormat: fileConfig.get('explorer.bch.livenet.addressFormat'),  // copay, cashaddr, or legacy
         webSocketsUrl: fileConfig.get('explorer.bch.livenet.webSocketsUrl')
       },
       testnet: {
