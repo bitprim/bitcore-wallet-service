@@ -23,7 +23,7 @@ var config = {
 
   storageOpts: {
     mongoDb: {
-      uri: 'mongodb://mongodb:27017/bws',
+      uri: fileConfig.get('mongodbUrl')
     },
   },
   lockOpts: {
@@ -43,28 +43,31 @@ var config = {
     btc: {
       livenet: {
         provider: fileConfig.get('explorer.btc.livenet.provider'),
-        url: fileConfig.get('explorer.btc.livenet.url')
+        url: fileConfig.get('explorer.btc.livenet.url'),
+        webSocketsUrl: fileConfig.get('explorer.btc.livenet.webSocketsUrl')
       },
       testnet: {
         provider: fileConfig.get('explorer.btc.testnet.provider'),
-        url: fileConfig.get('explorer.btc.testnet.url')
+        url: fileConfig.get('explorer.btc.testnet.url'),
         // Multiple servers (in priority order)
         // url: ['http://a.b.c', 'https://test-insight.bitpay.com:443'],
+        webSocketsUrl: fileConfig.get('explorer.btc.testnet.webSocketsUrl')
       },
     },
     bch: {
       livenet: {
         provider: fileConfig.get('explorer.bch.livenet.provider'),
         url: fileConfig.get('explorer.bch.livenet.url'),
-        addressFormat: fileConfig.get('explorer.bch.testnet.addressFormat')  // copay, cashaddr, or legacy
+        addressFormat: fileConfig.get('explorer.bch.testnet.addressFormat'),  // copay, cashaddr, or legacy
+        webSocketsUrl: fileConfig.get('explorer.bch.livenet.webSocketsUrl')
       },
       testnet: {
         provider: fileConfig.get('explorer.bch.testnet.provider'),
         url: fileConfig.get('explorer.bch.testnet.url'),
-        addressFormat: fileConfig.get('explorer.bch.testnet.addressFormat')  // copay, cashaddr, or legacy
+        addressFormat: fileConfig.get('explorer.bch.testnet.addressFormat'),  // copay, cashaddr, or legacy
+        webSocketsUrl: fileConfig.get('explorer.bch.testnet.webSocketsUrl')
       }
-    },
-    webSocketsUrl: fileConfig.get('explorer.webSocketsUrl')
+    }
   },
   pushNotificationsOpts: {
     templatePath: './lib/templates',
