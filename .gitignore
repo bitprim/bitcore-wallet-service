@@ -37,3 +37,6 @@ multilevel/db/*
 
 # Configuration file
 config/default.json
+
+# IDE
+.vscode/
