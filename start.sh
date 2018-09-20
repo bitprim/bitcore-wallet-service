@@ -1,6 +1,6 @@
 #!/bin/bash
-[ ! -n "LOG_DIR" ] && LOG_DIR=logs
-[ ! -n "PID_DIR" ] && PID_DIR=pids
+[ ! -n "${LOG_DIR}" ] && LOG_DIR=logs
+[ ! -n "${PID_DIR}" ] && PID_DIR=pids
 mkdir -p ${LOG_DIR}
 mkdir -p ${PID_DIR}
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ ! -n "PID_DIR" ] && PID_DIR=pids
+[ ! -n "${PID_DIR}" ] && PID_DIR=pids
 
 
 stop_program ()
