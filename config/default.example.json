@@ -16,13 +16,13 @@
             "livenet": {
                 "provider": "insight",
                 "url": "https://blockdozer.com",
-                "addressFormat": "cashaddr",
+                "addressFormat": "legacy",
                 "webSocketsUrl" : "wss://blockdozer.com/wss"
             },
             "testnet": {
                 "provider": "insight",
                 "url": "https://tbch.blockdozer.com",
-                "addressFormat": "cashaddr",
+                "addressFormat": "legacy",
                 "webSocketsUrl" : "wss://tbch.blockdozer.com/wss"
             }
         }
