@@ -1,5 +1,8 @@
 #!/bin/bash
 
+[ ! -n "${PID_DIR}" ] && PID_DIR=pids
+
+
 stop_program ()
 {
   pidfile=$1
@@ -10,11 +13,11 @@ stop_program ()
   
 }
 
-stop_program pids/bws.pid
-stop_program pids/fiatrateservice.pid
-stop_program pids/emailservice.pid
-stop_program pids/bcmonitor.pid
-stop_program pids/pushnotificationsservice.pid
-stop_program pids/messagebroker.pid
-stop_program pids/locker.pid
+stop_program ${PID_DIR}/bws.pid
+stop_program ${PID_DIR}/fiatrateservice.pid
+stop_program ${PID_DIR}/emailservice.pid
+stop_program ${PID_DIR}/bcmonitor.pid
+stop_program ${PID_DIR}/pushnotificationsservice.pid
+stop_program ${PID_DIR}/messagebroker.pid
+stop_program ${PID_DIR}/locker.pid
 
