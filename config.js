@@ -20,62 +20,72 @@ var config = {
   // CAroot: '', // ex. 'AddTrustExternalCARoot.crt'
 
   storageOpts: {
-    mongoDb: {
-      uri: 'mongodb://mongodb:27017/bws',
-    },
+      mongoDb: {
+          uri: 'mongodb://localhost:27017/bws',
+      },
   },
   lockOpts: {
-    //  To use locker-server, uncomment this:
-    lockerServer: {
-      host: 'localhost',
-      port: 3231,
-    },
+      //  To use locker-server, uncomment this:
+      lockerServer: {
+          host: 'localhost',
+          port: 3231,
+      },
   },
   messageBrokerOpts: {
-    //  To use message broker server, uncomment this:
-    messageBrokerServer: {
-      url: 'http://localhost:3380',
-    },
+      //  To use message broker server, uncomment this:
+      messageBrokerServer: {
+          url: 'http://localhost:3380',
+      },
   },
   blockchainExplorerOpts: {
-    btc: {
-      livenet: {
-        provider: 'insight',
-        url: 'https://btc.blockdozer.com:443',
+      btc: {
+          livenet: {
+              provider: 'insight',
+              url: 'https://insight.bitpay.com:443',
+          },
+          testnet: {
+              provider: 'insight',
+              url: 'https://test-insight.bitpay.com:443',
+              // Multiple servers (in priority order)
+              // url: ['http://a.b.c', 'https://test-insight.bitpay.com:443'],
+          },
       },
-      testnet: {
-        provider: 'insight',
-        url: 'https://tbtc.blockdozer.com:443',
-        // Multiple servers (in priority order)
-        // url: ['http://a.b.c', 'https://test-insight.bitpay.com:443'],
-      },
-    },
-    bch: {
-      livenet: {
-        provider: 'insight',
-        //url: 'https://cashexplorer.bitcoin.com',
-        url: 'https://blockdozer.com:443',
-        addressFormat: 'cashaddr',  // copay, cashaddr, or legacy
-      },
-      testnet: {
-        provider: 'insight',
-        url: 'https://tbch.blockdozer.com:443',
-        addressFormat: 'cashaddr',  // copay, cashaddr, or legacy
-      },
+      bch: {
+          livenet: {
+              provider: 'insight',
+              //url: 'https://cashexplorer.bitcoin.com',
+              url: 'https://bch-insight.bitpay.com:443',
+              addressFormat: 'cashaddr', // copay, cashaddr, or legacy
+          },
+          testnet: {
+              provider: 'insight',
+            //   url: 'https://test-bch-insight.bitpay.com:443',
+              url: 'http://hanchon.io:3001',
+              apiPrefix: '/insight-api',
+              addressFormat: 'legacy', // copay, cashaddr, or legacy
+          },
 
-    },
+      },
   },
-  pushNotificationsOpts: {
-    templatePath: './lib/templates',
-    defaultLanguage: 'en',
-    defaultUnit: 'btc',
-    subjectPrefix: '',
-    pushServerUrl: 'https://fcm.googleapis.com/fcm',
-    authorizationKey: 'You_have_to_put_something_here',
+  keokenExplorerOpts: {
+    coin: 'bch',
+    network: 'livenet',
+    url: "http://66.70.180.6:4444",
+    apiPrefix: "api",
+    userAgent: "Bochanode",
+    addressFormat: "legacy",
   },
+  // pushNotificationsOpts: {
+  //   templatePath: './lib/templates',
+  //   defaultLanguage: 'en',
+  //   defaultUnit: 'btc',
+  //   subjectPrefix: '',
+  //   pushServerUrl: 'https://fcm.googleapis.com/fcm',
+  //   authorizationKey: '',
+  // },
   fiatRateServiceOpts: {
-    defaultProvider: 'BitPay',
-    fetchInterval: 60, // in minutes
+      defaultProvider: 'BitPay',
+      fetchInterval: 60, // in minutes
   },
   // To use email notifications uncomment this:
   // emailOpts: {
@@ -93,8 +103,8 @@ var config = {
   //      testnet: 'https://test-insight.bitpay.com/tx/{{txid}}',
   //    },
   //    bch: {
-  //      livenet: 'https://bch-insight.bitpay.com/#/tx/{{txid}}',
-  //      testnet: 'https://test-bch-insight.bitpay.com/#/tx/{{txid}}',
+  //      livenet: 'https://bch-insight.bitpay.com/tx/{{txid}}',
+  //      testnet: 'https://test-bch-insight.bitpay.com/tx/{{txid}}',
   //    }
   //  },
   // },
