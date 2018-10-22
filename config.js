@@ -59,8 +59,8 @@ var config = {
           },
           testnet: {
               provider: 'insight',
-            //   url: 'https://test-bch-insight.bitpay.com:443',
-              url: 'http://hanchon.io:3001',
+              url: 'https://tcust05.blockdozer.com:443',
+              //url: 'http://hanchon.io:3001',
               apiPrefix: '/insight-api',
               addressFormat: 'legacy', // copay, cashaddr, or legacy
           },
