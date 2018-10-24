@@ -70,7 +70,7 @@ var config = {
   keokenExplorerOpts: {
     coin: 'bch',
     network: 'livenet',
-    url: "http://66.70.180.6:4444",
+    url: "https://explorer.testnet.keoken.io",
     apiPrefix: "api",
     userAgent: "Bochanode",
     addressFormat: "legacy",
