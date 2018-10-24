@@ -67,7 +67,8 @@ var config = {
         addressFormat: fileConfig.get('explorer.bch.testnet.addressFormat'),  // copay, cashaddr, or legacy
         webSocketsUrl: fileConfig.get('explorer.bch.testnet.webSocketsUrl')
       }
-    }
+    },
+    useSocketIo: fileConfig.get('explorer.useSocketIo')
   },
   pushNotificationsOpts: {
     templatePath: './lib/templates',
