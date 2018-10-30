@@ -75,14 +75,14 @@ var config = {
     userAgent: "Bochanode",
     addressFormat: "legacy",
   },
-  // pushNotificationsOpts: {
-  //   templatePath: './lib/templates',
-  //   defaultLanguage: 'en',
-  //   defaultUnit: 'btc',
-  //   subjectPrefix: '',
-  //   pushServerUrl: 'https://fcm.googleapis.com/fcm',
-  //   authorizationKey: '',
-  // },
+  pushNotificationsOpts: {
+    templatePath: './lib/templates',
+    defaultLanguage: 'en',
+    defaultUnit: 'btc',
+    subjectPrefix: '',
+     pushServerUrl: 'https://fcm.googleapis.com/fcm',
+    authorizationKey: '',
+  },
   fiatRateServiceOpts: {
       defaultProvider: 'BitPay',
       fetchInterval: 60, // in minutes
