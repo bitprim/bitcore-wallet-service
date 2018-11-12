@@ -27,17 +27,17 @@ var config = {
     },
   },
   lockOpts: {
-    //  To use locker-server, uncomment this:
-    lockerServer: {
-      host: 'localhost',
-      port: 3231,
-    },
+      //  To use locker-server, uncomment this:
+      lockerServer: {
+          host: 'localhost',
+          port: 3231,
+      },
   },
   messageBrokerOpts: {
-    //  To use message broker server, uncomment this:
-    messageBrokerServer: {
-      url: 'http://localhost:3380',
-    },
+      //  To use message broker server, uncomment this:
+      messageBrokerServer: {
+          url: 'http://localhost:3380',
+      },
   },
   blockchainExplorerOpts: {
     btc: {
@@ -70,17 +70,25 @@ var config = {
     },
     useSocketIo: fileConfig.get('explorer.useSocketIo')
   },
+  keokenExplorerOpts: {
+    coin: 'bch',
+    network: 'livenet',
+    url: "https://explorer.testnet.keoken.io",
+    apiPrefix: "api",
+    userAgent: "Bochanode",
+    addressFormat: "legacy",
+  },
   pushNotificationsOpts: {
     templatePath: './lib/templates',
     defaultLanguage: 'en',
-    defaultUnit: 'btc',
+    defaultUnit: 'bch',
     subjectPrefix: '',
     pushServerUrl: 'https://fcm.googleapis.com/fcm',
     authorizationKey: fileConfig.get('pushNotificationsServerKey'),
   },
   fiatRateServiceOpts: {
-    defaultProvider: 'BitPay',
-    fetchInterval: 60, // in minutes
+      defaultProvider: 'BitPay',
+      fetchInterval: 60, // in minutes
   },
   // To use email notifications uncomment this:
   // emailOpts: {
@@ -98,8 +106,8 @@ var config = {
   //      testnet: 'https://test-insight.bitpay.com/tx/{{txid}}',
   //    },
   //    bch: {
-  //      livenet: 'https://bch-insight.bitpay.com/#/tx/{{txid}}',
-  //      testnet: 'https://test-bch-insight.bitpay.com/#/tx/{{txid}}',
+  //      livenet: 'https://bch-insight.bitpay.com/tx/{{txid}}',
+  //      testnet: 'https://test-bch-insight.bitpay.com/tx/{{txid}}',
   //    }
   //  },
   // },
