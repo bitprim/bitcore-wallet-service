@@ -1,0 +1,40 @@
+{
+    "email": {
+        "enableEmailNotifications": true,
+        "ignoreTLS": false,
+        "mailerUrl": "smtp-relay.gmail.com",
+        "mailerPort": 25
+    },
+    "explorer": {
+        "btc": {
+            "livenet": {
+                "provider": "insight",
+                "url": "https://insight.bitpay.com:443",
+                "webSocketsUrl" : ""
+            },
+            "testnet": {
+                "provider": "insight",
+                "url": "https://test-insight.bitpay.com:443",
+                "webSocketsUrl" : ""
+            }
+        },
+        "bch": {
+            "livenet": {
+                "provider": "insight",
+                "url": "https://bch-insight.bitpay.com:443",
+                "addressFormat": "cashaddr",
+                "webSocketsUrl" : ""
+            },
+            "testnet": {
+                "provider": "insight",
+                "url": "https://tcust05.blockdozer.com:443",
+                "apiPrefix": "/insight-api",
+                "addressFormat": "legacy",
+                "webSocketsUrl" : ""
+            }
+        },
+        "useSocketIo": false
+     },
+    "mongodbUrl" : "mongodb://mongodb:27017/bws",
+    "pushNotificationsServerKey": "you_have_to_put_something_here"
+}
