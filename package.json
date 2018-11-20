@@ -25,6 +25,7 @@
     "bitcore-lib-cash": "^0.17.0",
     "body-parser": "^1.11.0",
     "compression": "^1.6.2",
+    "config": "^2.0.1",
     "coveralls": "^2.11.2",
     "email-validator": "^1.0.1",
     "express": "^4.10.0",
