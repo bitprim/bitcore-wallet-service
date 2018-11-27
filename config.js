@@ -1,6 +1,6 @@
 var config = {
   basePath: '/bws/api',
-  sendNotifications: true,
+  sendNotifications: false,
   disableLogs: false,
   port: 3232,
 
