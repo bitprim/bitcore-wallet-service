@@ -1,6 +1,6 @@
 var config = {
   basePath: '/bws/api',
-  sendNotifications: false,
+  sendNotifications: process.env.KWS_SEND_NOTIFICATIONS === "true" || false,
   disableLogs: false,
   port: 3232,
 
