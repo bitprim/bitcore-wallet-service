@@ -28,6 +28,8 @@ var Model = require('../../lib/model');
 var WalletService = require('../../lib/server');
 var TestData = require('../testdata');
 
+var util = require('util');
+
 var storage, blockchainExplorer;
 
 var useMongoDb = !!process.env.USE_MONGO_DB;
@@ -65,7 +67,15 @@ helpers.beforeEach = function(cb) {
     var opts = {
       storage: storage,
       blockchainExplorer: blockchainExplorer,
-      request: sinon.stub()
+      request: sinon.stub(),
+      keokenExplorerOpts: {
+        coin: 'bch',
+        network: 'livenet',
+        url: "https://explorer.testnet.keoken.io",
+        apiPrefix: "api",
+        userAgent: "Bochanode",
+        addressFormat: "legacy",
+      }
     };
     WalletService.initialize(opts, function() {
       return cb(opts);

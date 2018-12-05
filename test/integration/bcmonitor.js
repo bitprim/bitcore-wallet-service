@@ -130,7 +130,6 @@ describe('Blockchain monitor', function() {
         socket.handlers['tx'](incoming);
         setTimeout(function() {
 
-
           var incoming2 = {
             txid: '456',
             vout: [{}],
@@ -180,7 +179,7 @@ describe('Blockchain monitor', function() {
             setTimeout(function() {
               server.storage.fetchAddressesWithBalance(wallet.id, function(err,ret) {
                 should.not.exist(err);
-                ret.length.should.equal(2);
+                ret.length.should.equal(1); // There is a single, fixed address for each Keoken wallet
                 ret[0].address.should.equal(address.address);
                 done();
               });
