@@ -34,3 +34,4 @@ db/*
 multilevel/db/*
 
 .idea
+.vscode/
