@@ -136,7 +136,7 @@ helpers._generateCopayersTestData = function() {
   ];
 
   console.log('var copayers = [');
-  _.each(xPrivKeys, function(xPrivKeyStr, c) {
+  _.forEach(xPrivKeys, function(xPrivKeyStr, c) {
     var xpriv = Bitcore.HDPrivateKey(xPrivKeyStr);
     var xpub = Bitcore.HDPublicKey(xpriv);
 
@@ -346,7 +346,7 @@ helpers.stubUtxos = function(server, wallet, amounts, opts, cb) {
 
       blockchainExplorer.getUtxos = function(addresses, cb) {
         var selected = _.filter(helpers._utxos, function(utxo) {
-          return _.contains(addresses, utxo.address);
+          return _.includes(addresses, utxo.address);
         });
         return cb(null, selected);
       };
@@ -392,9 +392,12 @@ helpers.stubHistory = function(txs) {
 
 helpers.stubFeeLevels = function(levels) {
   blockchainExplorer.estimateFee = function(nbBlocks, cb) {
-    var result = _.zipObject(_.map(_.pick(levels, nbBlocks), function(fee, n) {
-      return [+n, fee > 0 ? fee / 1e8 : fee];
-    }));
+    var feesByLevel = _.pick(levels, nbBlocks);
+    var result = {};
+    for(var n in feesByLevel) {
+      var fee = feesByLevel[n];
+      result[+n] = fee > 0 ? fee / 1e8 : fee;
+    }
     return cb(null, result);
   };
 };
@@ -415,7 +418,7 @@ helpers.stubAddressActivity = function(activeAddresses, failsOn) {
 
     stubAddressActivityFailsOnCount++;
 
-    return cb(null, _.contains(activeAddresses, address));
+    return cb(null, _.includes(activeAddresses, address));
   };
 };
 
@@ -428,7 +431,7 @@ helpers.clientSign = function(txp, derivedXPrivKey) {
 
   var xpriv = new Bitcore.HDPrivateKey(derivedXPrivKey, txp.network);
 
-  _.each(txp.inputs, function(i) {
+  _.forEach(txp.inputs, function(i) {
     if (!derived[i.path]) {
       derived[i.path] = xpriv.deriveChild(i.path).privateKey;
       privs.push(derived[i.path]);
@@ -524,7 +527,7 @@ helpers.historyCacheTest = function(items) {
   };
 
   var ret = [];
-  _.each(_.range(0, items), function(i) {
+  _.forEach(_.range(0, items), function(i) {
     var t = _.clone(template);
     t.txid = 'txid:' + i;
     t.confirmations = items - i - 1;
