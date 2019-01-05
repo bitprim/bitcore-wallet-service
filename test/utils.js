@@ -39,7 +39,7 @@ describe('Utils', function() {
         args: ['id', 'dummy'],
         check: ['dummy']
       }, ];
-      _.each(fixtures, function(f) {
+      _.forEach(fixtures, function(f) {
         Utils.getMissingFields(obj, f.args).should.deep.equal(f.check);
       });
     });
@@ -126,7 +126,7 @@ describe('Utils', function() {
         expected: '12 345,679',
       }, ];
 
-      _.each(cases, function(testCase) {
+      _.forEach(cases, function(testCase) {
         Utils.formatAmount.apply(this, testCase.args).should.equal(testCase.expected);
       });
     });
