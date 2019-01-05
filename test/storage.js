@@ -90,7 +90,7 @@ describe('Storage', function() {
         coin: 'btc',
         network: 'livenet',
       });
-      _.each(_.range(3), function(i) {
+      _.forEach(_.range(3), function(i) {
         var copayer = Model.Copayer.create({
           coin: 'btc',
           name: 'copayer ' + i,
@@ -135,7 +135,7 @@ describe('Storage', function() {
         coin: 'btc',
         network: 'livenet',
       });
-      _.each(_.range(3), function(i) {
+      _.forEach(_.range(3), function(i) {
         var copayer = Model.Copayer.create({
           coin: 'btc',
           name: 'copayer ' + i,
@@ -221,7 +221,7 @@ describe('Storage', function() {
             should.not.exist(err);
             should.exist(txs);
             txs.length.should.equal(3);
-            _.any(txs, {
+            _.some(txs, {
               id: proposals[0].id
             }).should.be.false;
             done();
