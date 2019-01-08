@@ -1,8 +1,8 @@
 {
   "name": "keoken-wallet-service",
   "description": "A service for Mutisig HD Bitcoin Wallets",
-  "author": "BitPay Inc",
-  "version": "2.4.0",
+  "author": "Bitprim Inc",
+  "version": "2.4.1",
   "license": "MIT",
   "keywords": [
     "bitcoin",
@@ -73,16 +73,16 @@
   "bitcoreNode": "./bitcorenode",
   "contributors": [
     {
-      "name": "Braydon Fuller",
-      "email": "braydon@bitpay.com"
+      "name": "Ramiro Carlucho",
+      "email": "ramiro@bitprim.org"
     },
     {
-      "name": "Ivan Socolsky",
-      "email": "ivan@bitpay.com"
+      "name": "Guillermo Paoletti",
+      "email": "guillermo@bitprim.org"
     },
     {
-      "name": "Matias Alejo Garcia",
-      "email": "ematiu@gmail.com"
+      "name": "Dario Ramos",
+      "email": "dario@bitprim.org"
     }
   ]
 }
