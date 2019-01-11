@@ -60,7 +60,7 @@ var config = {
           },
           testnet: {
               provider: 'insight',
-              url: 'https://tcust05.blockdozer.com:443',
+              url: 'https://tbch.blockdozer.com:443',
               //url: 'http://hanchon.io:3001',
               apiPrefix: '/insight-api',
               addressFormat: 'legacy', // copay, cashaddr, or legacy
