@@ -2,7 +2,7 @@
   "name": "keoken-wallet-service",
   "description": "A service for Mutisig HD Bitcoin Wallets",
   "author": "Bitprim Inc",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "license": "MIT",
   "keywords": [
     "bitcoin",
