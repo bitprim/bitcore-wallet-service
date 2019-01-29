@@ -5294,6 +5294,7 @@ describe('Wallet service', function() {
             address: mainAddresses[0].address,
             amount: 200,
           }],
+          assetId: Defaults.KEOS_ASSET_ID
         }];
         helpers.stubHistory(txs);
         helpers.stubFeeLevels({
@@ -5313,6 +5314,43 @@ describe('Wallet service', function() {
             tx.note.body.should.equal('just some note');
             tx.note.editedBy.should.equal(server.copayerId);
             should.exist(tx.note.editedOn);
+            done();
+          });
+        });
+      });
+    });
+    it('should not include notes if asset id does not match', function(done) {
+      helpers.createAddresses(server, wallet, 1, 1, function(mainAddresses, changeAddress) {
+        blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, 1000);
+        server._normalizeTxHistory = sinon.stub().returnsArg(0);
+        var txs = [{
+          txid: '123',
+          confirmations: 1,
+          fees: 100,
+          time: 20,
+          inputs: [{
+            address: 'external',
+            amount: 500,
+          }],
+          outputs: [{
+            address: mainAddresses[0].address,
+            amount: 200,
+          }]
+          // No asset id
+        }];
+        helpers.stubHistory(txs);
+        helpers.stubFeeLevels({
+          24: 10000,
+        });
+        server.editTxNote({
+          txid: '123',
+          body: 'just some note'
+        }, function(err) {
+          should.not.exist(err);
+          server.getTxHistory({}, function(err, txs) {
+            should.not.exist(err);
+            should.exist(txs);
+            txs.length.should.equal(0);
             done();
           });
         });
@@ -8013,7 +8051,7 @@ describe('Wallet service', function() {
         blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, 1000);
         h = helpers.historyCacheTest(200);
         helpers.stubHistory(h);
-        server.storage.clearTxHistoryCache(server.walletId, function() {
+        server.storage.clearTxHistoryCache(server.walletId, Defaults.KEOS_ASSET_ID, function() {
           done();
         });
       });
@@ -8104,7 +8142,7 @@ describe('Wallet service', function() {
 
             function resetCache(cb) {
               if (!(i % 25)) {
-                storage.softResetTxHistoryCache(server.walletId, function() {
+                storage.softResetTxHistoryCache(server.walletId, null, function() {
                   return cb(true);
                 });
               } else {
