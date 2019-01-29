@@ -7375,7 +7375,7 @@ describe('Wallet service', function() {
     });
 
     it('should get tx history from insight', function(done) {
-      helpers.stubHistory(TestData.history);
+      helpers.stubHistory(TestData.history, Defaults.KEOS_ASSET_ID);
       server.getTxHistory({}, function(err, txs) {
         should.not.exist(err);
         should.exist(txs);
@@ -7385,6 +7385,15 @@ describe('Wallet service', function() {
           var h = TestData.history[i++];
           tx.time.should.equal(h.confirmations ? h.blocktime : h.firstSeenTs);
         });
+        done();
+      });
+    });
+    it('should get no txs if asset id does not match', function(done) {
+      helpers.stubHistory(TestData.history, Defaults.KEOS_ASSET_ID);
+      server.getTxHistory({ filterByAssetId: 2}, function(err, txs) {
+        should.not.exist(err);
+        should.exist(txs);
+        txs.length.should.equal(0);
         done();
       });
     });
