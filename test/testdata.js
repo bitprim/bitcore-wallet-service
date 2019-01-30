@@ -265,7 +265,200 @@ var history = [{
   fees: 0.00014299
 }];
 
+var pagination = [{
+  opts: {},
+  expected: [50, 40, 30, 20, 10],
+}, {
+  opts: {
+    skip: 1,
+    limit: 3,
+  },
+  expected: [40, 30, 20],
+}, {
+  opts: {
+    skip: 1,
+    limit: 2,
+  },
+  expected: [40, 30],
+}, {
+  opts: {
+    skip: 2,
+  },
+  expected: [30, 20, 10],
+}, {
+  opts: {
+    limit: 4,
+  },
+  expected: [50, 40, 30, 20],
+}, {
+  opts: {
+    skip: 0,
+    limit: 3,
+  },
+  expected: [50, 40, 30],
+}, {
+  opts: {
+    skip: 0,
+    limit: 0,
+  },
+  expected: [],
+}, {
+  opts: {
+    skip: 4,
+    limit: 10,
+  },
+  expected: [10],
+}, {
+  opts: {
+    skip: 20,
+    limit: 1,
+  },
+  expected: [],
+}];
+
+var keoAssets = [
+  {
+    "amount": 2.1e+15,
+    "asset_creator": "myC8z6C96UUZwNiduvvPhqLA78LVuJGheo",
+    "asset_id": 1,
+    "asset_name": "keos"
+  },
+  {
+    "amount": 10000,
+    "asset_creator": "miqL1RdPsxc3ehdkUx9w335fgvymK8QpVZ",
+    "asset_id": 2,
+    "asset_name": "BitprimToken"
+  },
+  {
+    "amount": 5000000,
+    "asset_creator": "mgAbnv5JWAQUALwSxz451hzHhJVXJjmv39",
+    "asset_id": 3,
+    "asset_name": "HiToken"
+  },
+  {
+    "amount": 500404,
+    "asset_creator": "mseeCFfKuyaRn76KxH69YWUKxxTiXWcmY8",
+    "asset_id": 4,
+    "asset_name": "GeaToken"
+  },
+  {
+    "amount": 9000000,
+    "asset_creator": "mkFms1EX1EZgD3Fakg7TN6Gcr51jyEaYbJ",
+    "asset_id": 5,
+    "asset_name": "MaoToken"
+  },
+  {
+    "amount": 606060,
+    "asset_creator": "mo9tyNBWZep6wkmnMJCtWaKGxAKT5XCvL1",
+    "asset_id": 6,
+    "asset_name": "RedToken"
+  },
+  {
+    "amount": 9999999,
+    "asset_creator": "mtTLusiC5tgRSmb6iBSkuYjStTs9pqhsMb",
+    "asset_id": 7,
+    "asset_name": "DaroToken"
+  },
+  {
+    "amount": 76000,
+    "asset_creator": "n3UNTfvppWP6t1t1uCPkV8UEggBs9n5oKB",
+    "asset_id": 8,
+    "asset_name": "JujuToken"
+  },
+  {
+    "amount": 281089,
+    "asset_creator": "mzBiAtivQcmbX4xGmGfKPzQyh3uDyhhJnj",
+    "asset_id": 9,
+    "asset_name": "ColoToken"
+  },
+  {
+    "amount": 24000,
+    "asset_creator": "mnBTU76MgfRcEeHjVa4Fu9TRRvh4p7xmRK",
+    "asset_id": 10,
+    "asset_name": "RamaToken"
+  },
+  {
+    "amount": 11235813,
+    "asset_creator": "mv6EWEepJtyXaCcGJCc9RmotDK5eQGSZYk",
+    "asset_id": 11,
+    "asset_name": "MattToken"
+  },
+  {
+    "amount": 1010010,
+    "asset_creator": "mihL3onddyeJAT8N4knQaNtkwXbYod2pBY",
+    "asset_id": 12,
+    "asset_name": "PelliToken"
+  },
+  {
+    "amount": 28111973,
+    "asset_creator": "mo5sqoQyZiqcL8CAp6KVb3T4yeHMBK88bE",
+    "asset_id": 13,
+    "asset_name": "BochaToken"
+  },
+  {
+    "amount": 15615640,
+    "asset_creator": "mu3G6sLw3LLoGADmW8e34y8rewdEtEQk1V",
+    "asset_id": 14,
+    "asset_name": "MaritoToken"
+  },
+  {
+    "amount": 1000000,
+    "asset_creator": "mnVepRSBfJdvHGsqP58VqVCGXunDMJfuyk",
+    "asset_id": 15,
+    "asset_name": "SergioToken"
+  },
+  {
+    "amount": 60000,
+    "asset_creator": "mpQgtELJFfiFBds8kiivDdcdPJdmmC3gnF",
+    "asset_id": 16,
+    "asset_name": "HanchonToken"
+  },
+  {
+    "amount": 240,
+    "asset_creator": "mvfASkKT6G1Zt7QtaRjnC3N83CKpDjwEXe",
+    "asset_id": 17,
+    "asset_name": "Ramas"
+  },
+  {
+    "amount": 2000,
+    "asset_creator": "n1D2RCjqVoLXjFzvvyUsBtBu3FmS1N67TC",
+    "asset_id": 18,
+    "asset_name": "HanchonCoins"
+  },
+  {
+    "amount": 1000,
+    "asset_creator": "mzRVeBSm2MTrES9orcvGe9sgmFMet4Pe82",
+    "asset_id": 19,
+    "asset_name": "RBtoken"
+  },
+  {
+    "amount": 65536,
+    "asset_creator": "musirKStksCa3EADjkrtRa9jpMSmAHxbxd",
+    "asset_id": 20,
+    "asset_name": "TestingAssetJS"
+  },
+  {
+    "amount": 1000000,
+    "asset_creator": "mzRVeBSm2MTrES9orcvGe9sgmFMet4Pe82",
+    "asset_id": 21,
+    "asset_name": "RenzoCoin"
+  },
+  {
+    "amount": 50000,
+    "asset_creator": "mxKPspX7mGRwdM4KwDMGMFeL3iKQKctrav",
+    "asset_id": 22,
+    "asset_name": "Beto"
+  },
+  {
+    "amount": 1000000,
+    "asset_creator": "mro9aqn4xCzXVS7jRFFuzT2ERKonvPdSDA",
+    "asset_id": 23,
+    "asset_name": "werner-a-e-token"
+  }
+];
 
 module.exports.keyPair = keyPair;
 module.exports.copayers = copayers;
 module.exports.history = history;
+module.exports.pagination = pagination;
+module.exports.keoAssets = keoAssets;

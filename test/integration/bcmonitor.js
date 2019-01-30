@@ -14,6 +14,7 @@ var WalletService = require('../../lib/server');
 var BlockchainMonitor = require('../../lib/blockchainmonitor');
 
 var helpers = require('./helpers');
+var TestData = require('../testdata');
 var storage, blockchainExplorer;
 
 var socket = {
@@ -22,6 +23,12 @@ var socket = {
 socket.on = function(eventName, handler) {
   this.handlers[eventName] = handler;
 };
+
+var keokenExplorerMock = {
+  getAssets: function (callback) {
+    return callback(null, TestData.keoAssets);
+  }
+}
 
 describe('Blockchain monitor', function() {
   var server, wallet;
@@ -45,6 +52,7 @@ describe('Blockchain monitor', function() {
         var bcmonitor = new BlockchainMonitor();
         bcmonitor.start({
           lockOpts: {},
+          keokenExplorer: keokenExplorerMock,
           messageBroker: server.messageBroker,
           storage: storage,
           blockchainExplorers: {

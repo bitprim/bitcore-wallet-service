@@ -5294,6 +5294,7 @@ describe('Wallet service', function() {
             address: mainAddresses[0].address,
             amount: 200,
           }],
+          assetId: Defaults.KEOS_ASSET_ID
         }];
         helpers.stubHistory(txs);
         helpers.stubFeeLevels({
@@ -5313,6 +5314,43 @@ describe('Wallet service', function() {
             tx.note.body.should.equal('just some note');
             tx.note.editedBy.should.equal(server.copayerId);
             should.exist(tx.note.editedOn);
+            done();
+          });
+        });
+      });
+    });
+    it('should not include notes if asset id does not match', function(done) {
+      helpers.createAddresses(server, wallet, 1, 1, function(mainAddresses, changeAddress) {
+        blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, 1000);
+        server._normalizeTxHistory = sinon.stub().returnsArg(0);
+        var txs = [{
+          txid: '123',
+          confirmations: 1,
+          fees: 100,
+          time: 20,
+          inputs: [{
+            address: 'external',
+            amount: 500,
+          }],
+          outputs: [{
+            address: mainAddresses[0].address,
+            amount: 200,
+          }]
+          // No asset id
+        }];
+        helpers.stubHistory(txs);
+        helpers.stubFeeLevels({
+          24: 10000,
+        });
+        server.editTxNote({
+          txid: '123',
+          body: 'just some note'
+        }, function(err) {
+          should.not.exist(err);
+          server.getTxHistory({}, function(err, txs) {
+            should.not.exist(err);
+            should.exist(txs);
+            txs.length.should.equal(0);
             done();
           });
         });
@@ -5536,6 +5574,7 @@ describe('Wallet service', function() {
             address: 'external',
             amount: 300,
           }],
+          assetId: Defaults.KEOS_ASSET_ID
         }];
         helpers.stubHistory(txs);
         helpers.stubFeeLevels({
@@ -5552,6 +5591,39 @@ describe('Wallet service', function() {
           tx.outputs.length.should.equal(1);
           tx.outputs[0].address.should.equal('external');
           tx.outputs[0].amount.should.equal(300);
+          done();
+        });
+      });
+    });
+    it('should ignore changes in tx history from another asset', function(done) {
+      server._normalizeTxHistory = sinon.stub().returnsArg(0);
+      helpers.stubUtxos(server, wallet, 2, function() {
+        var txs = [{
+          txid: '1',
+          confirmations: 1,
+          fees: 150,
+          time: Date.now() / 1000,
+          inputs: [{
+            address: firstAddress.address,
+            amount: 550,
+          }],
+          outputs: [{
+            address: firstAddress.address,
+            amount: 100,
+          }, {
+            address: 'external',
+            amount: 300,
+          }],
+          assetId: 2
+        }];
+        helpers.stubHistory(txs);
+        helpers.stubFeeLevels({
+          24: 10000,
+        });
+        server.getTxHistory({}, function(err, txs) {
+          should.not.exist(err);
+          should.exist(txs);
+          txs.length.should.equal(0);
           done();
         });
       });
@@ -7303,7 +7375,7 @@ describe('Wallet service', function() {
     });
 
     it('should get tx history from insight', function(done) {
-      helpers.stubHistory(TestData.history);
+      helpers.stubHistory(TestData.history, Defaults.KEOS_ASSET_ID);
       server.getTxHistory({}, function(err, txs) {
         should.not.exist(err);
         should.exist(txs);
@@ -7313,6 +7385,15 @@ describe('Wallet service', function() {
           var h = TestData.history[i++];
           tx.time.should.equal(h.confirmations ? h.blocktime : h.firstSeenTs);
         });
+        done();
+      });
+    });
+    it('should get no txs if asset id does not match', function(done) {
+      helpers.stubHistory(TestData.history, Defaults.KEOS_ASSET_ID);
+      server.getTxHistory({ filterByAssetId: 2}, function(err, txs) {
+        should.not.exist(err);
+        should.exist(txs);
+        txs.length.should.equal(0);
         done();
       });
     });
@@ -7331,6 +7412,7 @@ describe('Wallet service', function() {
           address: mainAddresses[0].address,
           amount: 200,
         }],
+        assetId: Defaults.KEOS_ASSET_ID
       }];
       helpers.stubHistory(txs);
       server.getTxHistory({}, function(err, txs) {
@@ -7342,6 +7424,30 @@ describe('Wallet service', function() {
         tx.amount.should.equal(200);
         tx.fees.should.equal(100);
         tx.time.should.equal(20);
+        done();
+      });
+    });
+    it('should not get tx history for incoming txs if asset id does not match', function(done) {
+      server._normalizeTxHistory = sinon.stub().returnsArg(0);
+      var txs = [{
+        txid: '1',
+        confirmations: 1,
+        fees: 100,
+        time: 20,
+        inputs: [{
+          address: 'external',
+          amount: 500,
+        }],
+        outputs: [{
+          address: mainAddresses[0].address,
+          amount: 200,
+        }]
+      }];
+      helpers.stubHistory(txs);
+      server.getTxHistory({}, function(err, txs) {
+        should.not.exist(err);
+        should.exist(txs);
+        txs.length.should.equal(0);
         done();
       });
     });
@@ -7360,6 +7466,7 @@ describe('Wallet service', function() {
           address: 'external',
           amount: 400,
         }],
+        assetId: Defaults.KEOS_ASSET_ID
       }];
       helpers.stubHistory(txs);
       server.getTxHistory({}, function(err, txs) {
@@ -7371,6 +7478,30 @@ describe('Wallet service', function() {
         tx.amount.should.equal(500);  // it is 500 because there is no change Address
         tx.fees.should.equal(100);
         tx.time.should.equal(12345);
+        done();
+      });
+    });
+    it('should not get tx history for outgoing txs if asset id does not match', function(done) {
+      server._normalizeTxHistory = sinon.stub().returnsArg(0);
+      var txs = [{
+        txid: '1',
+        confirmations: 1,
+        fees: 100,
+        time: 12345,
+        inputs: [{
+          address: mainAddresses[0].address,
+          amount: 500,
+        }],
+        outputs: [{
+          address: 'external',
+          amount: 400,
+        }]
+      }];
+      helpers.stubHistory(txs);
+      server.getTxHistory({}, function(err, txs) {
+        should.not.exist(err);
+        should.exist(txs);
+        txs.length.should.equal(0);
         done();
       });
     });
@@ -7392,6 +7523,7 @@ describe('Wallet service', function() {
           address: changeAddresses[0].address,
           amount: 100,
         }],
+        assetId: Defaults.KEOS_ASSET_ID
       }];
       helpers.stubHistory(txs);
       server.getTxHistory({}, function(err, txs) {
@@ -7404,6 +7536,33 @@ describe('Wallet service', function() {
         tx.fees.should.equal(100);
         tx.outputs[0].address.should.equal('external');
         tx.outputs[0].amount.should.equal(300);
+        done();
+      });
+    });
+    it('should not get tx history for outgoing txs + change if asset id does not match', function(done) {
+      server._normalizeTxHistory = sinon.stub().returnsArg(0);
+      var txs = [{
+        txid: '1',
+        confirmations: 1,
+        fees: 100,
+        time: Date.now() / 1000,
+        inputs: [{
+          address: mainAddresses[0].address,
+          amount: 500,
+        }],
+        outputs: [{
+          address: 'external',
+          amount: 300,
+        }, {
+          address: changeAddresses[0].address,
+          amount: 100,
+        }]
+      }];
+      helpers.stubHistory(txs);
+      server.getTxHistory({}, function(err, txs) {
+        should.not.exist(err);
+        should.exist(txs);
+        txs.length.should.equal(0);
         done();
       });
     });
@@ -7504,57 +7663,6 @@ describe('Wallet service', function() {
     //   });
     // });
     it('should get various paginated tx history', function(done) {
-      var testCases = [{
-        opts: {},
-        expected: [50, 40, 30, 20, 10],
-      }, {
-        opts: {
-          skip: 1,
-          limit: 3,
-        },
-        expected: [40, 30, 20],
-      }, {
-        opts: {
-          skip: 1,
-          limit: 2,
-        },
-        expected: [40, 30],
-      }, {
-        opts: {
-          skip: 2,
-        },
-        expected: [30, 20, 10],
-      }, {
-        opts: {
-          limit: 4,
-        },
-        expected: [50, 40, 30, 20],
-      }, {
-        opts: {
-          skip: 0,
-          limit: 3,
-        },
-        expected: [50, 40, 30],
-      }, {
-        opts: {
-          skip: 0,
-          limit: 0,
-        },
-        expected: [],
-      }, {
-        opts: {
-          skip: 4,
-          limit: 10,
-        },
-        expected: [10],
-      }, {
-        opts: {
-          skip: 20,
-          limit: 1,
-        },
-        expected: [],
-      }];
-
       server._normalizeTxHistory = sinon.stub().returnsArg(0);
       var timestamps = [50, 40, 30, 20, 10];
       var txs = _.map(timestamps, function(ts, idx) {
@@ -7571,15 +7679,46 @@ describe('Wallet service', function() {
             address: mainAddresses[0].address,
             amount: 200,
           }],
+          assetId: Defaults.KEOS_ASSET_ID
         };
       });
       helpers.stubHistory(txs);
 
-      async.each(testCases, function(testCase, next) {
+      async.each(TestData.pagination, function(testCase, next) {
         server.getTxHistory(testCase.opts, function(err, txs) {
           should.not.exist(err);
           should.exist(txs);
           _.map(txs, 'time').should.deep.equal(testCase.expected);
+          next();
+        });
+      }, done);
+    });
+    it('should get various paginated tx history', function(done) {
+      server._normalizeTxHistory = sinon.stub().returnsArg(0);
+      var timestamps = [50, 40, 30, 20, 10];
+      var txs = _.map(timestamps, function(ts, idx) {
+        return {
+          txid: (idx + 1).toString(),
+          confirmations: ts / 10,
+          fees: 100,
+          time: ts,
+          inputs: [{
+            address: 'external',
+            amount: 500,
+          }],
+          outputs: [{
+            address: mainAddresses[0].address,
+            amount: 200,
+          }]
+        };
+      });
+      helpers.stubHistory(txs);
+
+      async.each(TestData.pagination, function(testCase, next) {
+        server.getTxHistory(testCase.opts, function(err, txs) {
+          should.not.exist(err);
+          should.exist(txs);
+          txs.length.should.equal(0);
           next();
         });
       }, done);
@@ -7597,7 +7736,7 @@ describe('Wallet service', function() {
       h.push({
         txid: 'xx'
       })
-      helpers.stubHistory(h);
+      helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
       var l = TestData.history.length;
 
       server.getTxHistory({}, function(err, txs) {
@@ -7635,6 +7774,7 @@ describe('Wallet service', function() {
           amount: 200,
         }],
         size: 500,
+        assetId: Defaults.KEOS_ASSET_ID
       }, {
         txid: '2',
         confirmations: 0,
@@ -7649,6 +7789,7 @@ describe('Wallet service', function() {
           amount: 200,
         }],
         size: 500,
+        assetId: Defaults.KEOS_ASSET_ID
       }, {
         txid: '3',
         confirmations: 6,
@@ -7663,6 +7804,7 @@ describe('Wallet service', function() {
           amount: 200,
         }],
         size: 500,
+        assetId: Defaults.KEOS_ASSET_ID
       }];
       helpers.stubHistory(txs);
       server.getTxHistory({}, function(err, txs) {
@@ -7696,6 +7838,7 @@ describe('Wallet service', function() {
           amount: 200,
         }],
         size: 500,
+        assetId: Defaults.KEOS_ASSET_ID
       }];
       helpers.stubHistory(txs);
       server.getTxHistory({}, function(err, txs) {
@@ -7710,6 +7853,7 @@ describe('Wallet service', function() {
 
     it('should handle outgoing txs where fee > amount', function(done) {
       var x = _.cloneDeep([HugeTxs[0]]);
+      x[0].assetId = Defaults.KEOS_ASSET_ID;
       x[0].vin[118].addr = mainAddresses[0].address;
       helpers.stubHistory(x);
 
@@ -7736,7 +7880,7 @@ describe('Wallet service', function() {
 
     it('should handle incoming txs with fee > incoming', function(done) {
       var x = _.cloneDeep([HugeTxs[1]]);
-
+      x[0].assetId = Defaults.KEOS_ASSET_ID;
       x[0].vout[43].scriptPubKey.addresses = [mainAddresses[0].address];
       helpers.stubHistory(x);
 
@@ -7781,7 +7925,7 @@ describe('Wallet service', function() {
       var totalItems = 200;
 
       var h = helpers.historyCacheTest(totalItems);
-      helpers.stubHistory(h);
+      helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
       blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, 200);
       var storeTxHistoryCacheSpy = sinon.spy(server.storage, 'storeTxHistoryCache');
 
@@ -7832,13 +7976,13 @@ describe('Wallet service', function() {
     });
 
 
-    it('should store cache all tx history from insight', function(done) {
+    it('should store whole tx history from insight in cache', function(done) {
       var skip = 195;
       var limit = 5;
       var totalItems = 200;
 
       var h = helpers.historyCacheTest(totalItems);
-      helpers.stubHistory(h);
+      helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
       blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, 200);
       var storeTxHistoryCacheSpy = sinon.spy(server.storage, 'storeTxHistoryCache');
 
@@ -7875,7 +8019,7 @@ describe('Wallet service', function() {
         x.confirmations = 500 + i;
         x.blockheight = 1000 - i;
       });
-      helpers.stubHistory(h);
+      helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
       var storeTxHistoryCacheSpy = sinon.spy(server.storage, 'storeTxHistoryCache');
 
       blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, 1500);
@@ -7937,7 +8081,7 @@ describe('Wallet service', function() {
         x.confirmations = 500 + i;
         x.blockheight = 1000 - i;
       });
-      helpers.stubHistory(h);
+      helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
       var storeTxHistoryCacheSpy = sinon.spy(server.storage, 'storeTxHistoryCache');
 
       blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, null);
@@ -7975,7 +8119,7 @@ describe('Wallet service', function() {
       WalletService._cachedBlockheight = null;
 
       var h = helpers.historyCacheTest(20);
-      helpers.stubHistory(h);
+      helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
       var storeTxHistoryCacheSpy = sinon.spy(server.storage, 'storeTxHistoryCache');
 
       blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, 500);
@@ -8012,8 +8156,8 @@ describe('Wallet service', function() {
       beforeEach(function(done) {
         blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, 1000);
         h = helpers.historyCacheTest(200);
-        helpers.stubHistory(h);
-        server.storage.clearTxHistoryCache(server.walletId, function() {
+        helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
+        server.storage.clearTxHistoryCache(server.walletId, Defaults.KEOS_ASSET_ID, function() {
           done();
         });
       });
@@ -8104,7 +8248,7 @@ describe('Wallet service', function() {
 
             function resetCache(cb) {
               if (!(i % 25)) {
-                storage.softResetTxHistoryCache(server.walletId, function() {
+                storage.softResetTxHistoryCache(server.walletId, null, function() {
                   return cb(true);
                 });
               } else {

@@ -364,7 +364,7 @@ helpers.stubBroadcast = function(thirdPartyBroadcast) {
   blockchainExplorer.getTransaction = sinon.stub().callsArgWith(1, null, null);
 };
 
-helpers.stubHistory = function(txs) {
+helpers.stubHistory = function(txs, assetId) {
   var totalItems = txs.length;
   blockchainExplorer.getTransactions = function(addresses, from, to, cb) {
     var MAX_BATCH_SIZE = 100;
@@ -388,6 +388,9 @@ helpers.stubHistory = function(txs) {
     var page = txs.slice(from, to);
     return cb(null, page, totalItems);
   };
+  if (assetId) {
+    txs.forEach( tx => tx.assetId = assetId );
+  }
 };
 
 helpers.stubFeeLevels = function(levels) {
