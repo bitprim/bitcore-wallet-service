@@ -7838,6 +7838,7 @@ describe('Wallet service', function() {
           amount: 200,
         }],
         size: 500,
+        assetId: Defaults.KEOS_ASSET_ID
       }];
       helpers.stubHistory(txs);
       server.getTxHistory({}, function(err, txs) {
@@ -7852,6 +7853,7 @@ describe('Wallet service', function() {
 
     it('should handle outgoing txs where fee > amount', function(done) {
       var x = _.cloneDeep([HugeTxs[0]]);
+      x[0].assetId = Defaults.KEOS_ASSET_ID;
       x[0].vin[118].addr = mainAddresses[0].address;
       helpers.stubHistory(x);
 
@@ -7878,7 +7880,7 @@ describe('Wallet service', function() {
 
     it('should handle incoming txs with fee > incoming', function(done) {
       var x = _.cloneDeep([HugeTxs[1]]);
-
+      x[0].assetId = Defaults.KEOS_ASSET_ID;
       x[0].vout[43].scriptPubKey.addresses = [mainAddresses[0].address];
       helpers.stubHistory(x);
 
@@ -7923,7 +7925,7 @@ describe('Wallet service', function() {
       var totalItems = 200;
 
       var h = helpers.historyCacheTest(totalItems);
-      helpers.stubHistory(h);
+      helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
       blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, 200);
       var storeTxHistoryCacheSpy = sinon.spy(server.storage, 'storeTxHistoryCache');
 
@@ -7974,13 +7976,13 @@ describe('Wallet service', function() {
     });
 
 
-    it('should store cache all tx history from insight', function(done) {
+    it('should store whole tx history from insight in cache', function(done) {
       var skip = 195;
       var limit = 5;
       var totalItems = 200;
 
       var h = helpers.historyCacheTest(totalItems);
-      helpers.stubHistory(h);
+      helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
       blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, 200);
       var storeTxHistoryCacheSpy = sinon.spy(server.storage, 'storeTxHistoryCache');
 
@@ -8017,7 +8019,7 @@ describe('Wallet service', function() {
         x.confirmations = 500 + i;
         x.blockheight = 1000 - i;
       });
-      helpers.stubHistory(h);
+      helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
       var storeTxHistoryCacheSpy = sinon.spy(server.storage, 'storeTxHistoryCache');
 
       blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, 1500);
@@ -8079,7 +8081,7 @@ describe('Wallet service', function() {
         x.confirmations = 500 + i;
         x.blockheight = 1000 - i;
       });
-      helpers.stubHistory(h);
+      helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
       var storeTxHistoryCacheSpy = sinon.spy(server.storage, 'storeTxHistoryCache');
 
       blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, null);
@@ -8117,7 +8119,7 @@ describe('Wallet service', function() {
       WalletService._cachedBlockheight = null;
 
       var h = helpers.historyCacheTest(20);
-      helpers.stubHistory(h);
+      helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
       var storeTxHistoryCacheSpy = sinon.spy(server.storage, 'storeTxHistoryCache');
 
       blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, 500);
@@ -8154,7 +8156,7 @@ describe('Wallet service', function() {
       beforeEach(function(done) {
         blockchainExplorer.getBlockchainHeight = sinon.stub().callsArgWith(0, null, 1000);
         h = helpers.historyCacheTest(200);
-        helpers.stubHistory(h);
+        helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
         server.storage.clearTxHistoryCache(server.walletId, Defaults.KEOS_ASSET_ID, function() {
           done();
         });
