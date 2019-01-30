@@ -265,7 +265,58 @@ var history = [{
   fees: 0.00014299
 }];
 
+var pagination = [{
+  opts: {},
+  expected: [50, 40, 30, 20, 10],
+}, {
+  opts: {
+    skip: 1,
+    limit: 3,
+  },
+  expected: [40, 30, 20],
+}, {
+  opts: {
+    skip: 1,
+    limit: 2,
+  },
+  expected: [40, 30],
+}, {
+  opts: {
+    skip: 2,
+  },
+  expected: [30, 20, 10],
+}, {
+  opts: {
+    limit: 4,
+  },
+  expected: [50, 40, 30, 20],
+}, {
+  opts: {
+    skip: 0,
+    limit: 3,
+  },
+  expected: [50, 40, 30],
+}, {
+  opts: {
+    skip: 0,
+    limit: 0,
+  },
+  expected: [],
+}, {
+  opts: {
+    skip: 4,
+    limit: 10,
+  },
+  expected: [10],
+}, {
+  opts: {
+    skip: 20,
+    limit: 1,
+  },
+  expected: [],
+}];
 
 module.exports.keyPair = keyPair;
 module.exports.copayers = copayers;
 module.exports.history = history;
+module.exports.pagination = pagination;

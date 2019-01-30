@@ -7663,57 +7663,6 @@ describe('Wallet service', function() {
     //   });
     // });
     it('should get various paginated tx history', function(done) {
-      var testCases = [{
-        opts: {},
-        expected: [50, 40, 30, 20, 10],
-      }, {
-        opts: {
-          skip: 1,
-          limit: 3,
-        },
-        expected: [40, 30, 20],
-      }, {
-        opts: {
-          skip: 1,
-          limit: 2,
-        },
-        expected: [40, 30],
-      }, {
-        opts: {
-          skip: 2,
-        },
-        expected: [30, 20, 10],
-      }, {
-        opts: {
-          limit: 4,
-        },
-        expected: [50, 40, 30, 20],
-      }, {
-        opts: {
-          skip: 0,
-          limit: 3,
-        },
-        expected: [50, 40, 30],
-      }, {
-        opts: {
-          skip: 0,
-          limit: 0,
-        },
-        expected: [],
-      }, {
-        opts: {
-          skip: 4,
-          limit: 10,
-        },
-        expected: [10],
-      }, {
-        opts: {
-          skip: 20,
-          limit: 1,
-        },
-        expected: [],
-      }];
-
       server._normalizeTxHistory = sinon.stub().returnsArg(0);
       var timestamps = [50, 40, 30, 20, 10];
       var txs = _.map(timestamps, function(ts, idx) {
@@ -7730,15 +7679,46 @@ describe('Wallet service', function() {
             address: mainAddresses[0].address,
             amount: 200,
           }],
+          assetId: Defaults.KEOS_ASSET_ID
         };
       });
       helpers.stubHistory(txs);
 
-      async.each(testCases, function(testCase, next) {
+      async.each(TestData.pagination, function(testCase, next) {
         server.getTxHistory(testCase.opts, function(err, txs) {
           should.not.exist(err);
           should.exist(txs);
           _.map(txs, 'time').should.deep.equal(testCase.expected);
+          next();
+        });
+      }, done);
+    });
+    it('should get various paginated tx history', function(done) {
+      server._normalizeTxHistory = sinon.stub().returnsArg(0);
+      var timestamps = [50, 40, 30, 20, 10];
+      var txs = _.map(timestamps, function(ts, idx) {
+        return {
+          txid: (idx + 1).toString(),
+          confirmations: ts / 10,
+          fees: 100,
+          time: ts,
+          inputs: [{
+            address: 'external',
+            amount: 500,
+          }],
+          outputs: [{
+            address: mainAddresses[0].address,
+            amount: 200,
+          }]
+        };
+      });
+      helpers.stubHistory(txs);
+
+      async.each(TestData.pagination, function(testCase, next) {
+        server.getTxHistory(testCase.opts, function(err, txs) {
+          should.not.exist(err);
+          should.exist(txs);
+          txs.length.should.equal(0);
           next();
         });
       }, done);
@@ -7756,7 +7736,7 @@ describe('Wallet service', function() {
       h.push({
         txid: 'xx'
       })
-      helpers.stubHistory(h);
+      helpers.stubHistory(h, Defaults.KEOS_ASSET_ID);
       var l = TestData.history.length;
 
       server.getTxHistory({}, function(err, txs) {
