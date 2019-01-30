@@ -7412,6 +7412,7 @@ describe('Wallet service', function() {
           address: mainAddresses[0].address,
           amount: 200,
         }],
+        assetId: Defaults.KEOS_ASSET_ID
       }];
       helpers.stubHistory(txs);
       server.getTxHistory({}, function(err, txs) {
@@ -7423,6 +7424,30 @@ describe('Wallet service', function() {
         tx.amount.should.equal(200);
         tx.fees.should.equal(100);
         tx.time.should.equal(20);
+        done();
+      });
+    });
+    it('should not get tx history for incoming txs if asset id does not match', function(done) {
+      server._normalizeTxHistory = sinon.stub().returnsArg(0);
+      var txs = [{
+        txid: '1',
+        confirmations: 1,
+        fees: 100,
+        time: 20,
+        inputs: [{
+          address: 'external',
+          amount: 500,
+        }],
+        outputs: [{
+          address: mainAddresses[0].address,
+          amount: 200,
+        }]
+      }];
+      helpers.stubHistory(txs);
+      server.getTxHistory({}, function(err, txs) {
+        should.not.exist(err);
+        should.exist(txs);
+        txs.length.should.equal(0);
         done();
       });
     });
