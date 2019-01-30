@@ -7774,6 +7774,7 @@ describe('Wallet service', function() {
           amount: 200,
         }],
         size: 500,
+        assetId: Defaults.KEOS_ASSET_ID
       }, {
         txid: '2',
         confirmations: 0,
@@ -7788,6 +7789,7 @@ describe('Wallet service', function() {
           amount: 200,
         }],
         size: 500,
+        assetId: Defaults.KEOS_ASSET_ID
       }, {
         txid: '3',
         confirmations: 6,
@@ -7802,6 +7804,7 @@ describe('Wallet service', function() {
           amount: 200,
         }],
         size: 500,
+        assetId: Defaults.KEOS_ASSET_ID
       }];
       helpers.stubHistory(txs);
       server.getTxHistory({}, function(err, txs) {
